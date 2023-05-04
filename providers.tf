@@ -9,7 +9,3 @@ provider "aws" {
   profile = local.pod
   region  = local.region
 }
-
-provider "azurerm" {
-  features {}
-}

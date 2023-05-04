@@ -14,15 +14,60 @@ module "vpc" {
 }
 
 # Test instance in private subnet
-module "instance" {
-  source     = "../infra-avx-labs/_modules/mc-instance"
-  name       = "aws-egress-instance"
-  vpc_id     = module.vpc.vpc_id
-  subnet_id  = module.vpc.private_subnets[0]
-  cloud      = "aws"
-  public_key = file("~/.ssh/id_rsa.pub")
-  password   = var.ctrl_password
-  user_data_templatefile = templatefile("${path.module}/egress.tpl",
+resource "tls_private_key" "ec2_instance" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "ec2_instance" {
+  key_name   = "aws-egress-instance"
+  public_key = tls_private_key.ec2_instance.public_key_openssh
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  owners = ["099720109477"] # Canonical
+}
+
+resource "aws_security_group" "ec2_instance" {
+  name        = "aws-egress-instance-sg"
+  description = "Instance security group"
+  vpc_id      = module.vpc.vpc_id
+
+  tags = {
+    Name = "aws-egress-instance-sg"
+  }
+}
+
+resource "aws_security_group_rule" "ec2_instance" {
+  type              = "egress"
+  description       = "Allow all outbound"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.ec2_instance.id
+}
+
+module "ec2_instance" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "aws-egress-instance"
+
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.micro"
+  key_name               = aws_key_pair.ec2_instance.key_name
+  vpc_security_group_ids = [aws_security_group.ec2_instance.id]
+  subnet_id              = module.vpc.private_subnets[0]
+  user_data = templatefile("${path.module}/egress.tpl",
     {
       name     = "aws-egress-instance"
       password = var.ctrl_password

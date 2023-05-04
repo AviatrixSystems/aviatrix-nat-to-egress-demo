@@ -30,6 +30,10 @@ This terraform repository serves as the infrastructure as code (IaC) for a demon
 
    - Create an fqdn tag with a set of rules to block all Internet traffic, except that which is explicitly allowed.
 
+## Demo
+
+A video of this demo can be seen on [youtube](https://www.youtube.com/watch?v=oufrD58B_hc)
+
 ## Conclusion
 
 In just the above few steps a VPC's Internet traffic can be discovered and secured using an Aviatrix Secure Egress Gateway without any network downtime.
