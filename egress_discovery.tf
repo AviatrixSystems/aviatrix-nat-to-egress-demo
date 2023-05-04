@@ -1,7 +1,7 @@
 # Initial FQDN Discovery
 data "http" "ctrl_auth" {
   provider             = http-full
-  url                  = "https://ctrl.${local.pod}.aviatrixlab.com/v2/api"
+  url                  = "https://${var.ctrl_ip}/v2/api"
   method               = "POST"
   insecure_skip_verify = false
   request_headers = {
@@ -16,7 +16,7 @@ data "http" "ctrl_auth" {
 
 data "http" "fqdn_discovery" {
   provider             = http-full
-  url                  = "https://ctrl.${local.pod}.aviatrixlab.com/v2/api"
+  url                  = "https://${var.ctrl_ip}/v2/api"
   method               = "POST"
   insecure_skip_verify = false
   request_headers = {

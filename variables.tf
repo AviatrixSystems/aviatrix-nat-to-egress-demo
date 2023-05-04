@@ -1,5 +1,6 @@
 variable "ctrl_username" {}
 variable "ctrl_password" {}
+variable "ctrl_ip" {}
 
 locals {
   # Avx or nat
@@ -8,7 +9,6 @@ locals {
 
   # Vpc config
   vpc_cidr = "10.1.0.0/16"
-  pod      = "pod149"
   region   = "us-west-2"
 
   # Aviatrix Egress fqdn rules
