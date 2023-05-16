@@ -8,7 +8,7 @@
 #     for_each = local.avx_egress ? ["gw_name"] : []
 
 #     content {
-#       gw_name = aviatrix_gateway.egress.gw_name
+#       gw_name = aviatrix_spoke_gateway.egress.gw_name
 #     }
 #   }
 # }

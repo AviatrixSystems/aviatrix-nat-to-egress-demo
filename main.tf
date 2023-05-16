@@ -75,7 +75,7 @@ module "ec2_instance" {
 }
 
 # Aviatrix Secure Egress FQDN Gateway
-resource "aviatrix_gateway" "egress" {
+resource "aviatrix_spoke_gateway" "egress" {
   cloud_type     = 1
   account_name   = "aws-account"
   gw_name        = "avx-egress"

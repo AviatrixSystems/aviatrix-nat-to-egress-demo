@@ -22,5 +22,5 @@ data "http" "fqdn_discovery" {
   request_headers = {
     content-type = "application/x-www-form-urlencoded"
   }
-  request_body = "action=${local.avx_egress ? "start_fqdn_discovery" : "stop_fqdn_discovery"}&gateway_name=${aviatrix_gateway.egress.gw_name}&CID=${jsondecode(data.http.ctrl_auth.response_body).CID}"
+  request_body = "action=${local.avx_egress ? "start_fqdn_discovery" : "stop_fqdn_discovery"}&gateway_name=${aviatrix_spoke_gateway.egress.gw_name}&CID=${jsondecode(data.http.ctrl_auth.response_body).CID}"
 }
