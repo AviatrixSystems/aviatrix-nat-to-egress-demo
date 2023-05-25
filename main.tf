@@ -8,9 +8,24 @@ module "vpc" {
   azs             = ["${local.region}a"]
   public_subnets  = [cidrsubnet(local.vpc_cidr, 4, 0)]
   private_subnets = [cidrsubnet(local.vpc_cidr, 4, 1)]
+}
 
-  enable_nat_gateway = local.aws_nat
-  enable_vpn_gateway = false
+resource "aws_eip" "nat" {
+  count = local.aws_nat ? 1 : 0
+  vpc   = true
+}
+
+resource "aws_nat_gateway" "vpc" {
+  count         = local.aws_nat ? 1 : 0
+  allocation_id = aws_eip.nat[0].id
+  subnet_id     = module.vpc.public_subnets[0]
+}
+
+resource "aws_route" "nat" {
+  count                  = local.avx_egress ? 0 : 1
+  route_table_id         = module.vpc.private_route_table_ids[0]
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.vpc[0].id
 }
 
 # Test instance in private subnet
@@ -84,4 +99,5 @@ resource "aviatrix_spoke_gateway" "egress" {
   vpc_id         = module.vpc.vpc_id
   subnet         = module.vpc.public_subnets_cidr_blocks[0]
   single_ip_snat = local.avx_egress ? true : false
+  depends_on     = [aws_route.nat]
 }

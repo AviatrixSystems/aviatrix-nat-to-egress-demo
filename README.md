@@ -33,7 +33,7 @@ A deployed and configured Aviatrix Controller (v7.1+) and CoPilot
    - Using CoPilot you now have visibility into the Internet-bound traffic flows traversing the Aviatrix egress gateway. Navigate to Security-->Distributed Firewalling-->Policy Monitor to view the logs.
    - The same as with AWS NAT gateway, all access to the Internet is being allowed.
 
-3. After removing the `0.0.0.0/0` route definition from terraform state (`terraform state rm 'module.vpc.aws_route.private_nat_gateway[0]'`) and setting the local variable `aws_nat` from `true` to `false`, the third terraform apply:
+3. After setting the local variable `aws_nat` from `true` to `false`, the third terraform apply:
 
    - Removes the aws nat gateway and its eip.
 
