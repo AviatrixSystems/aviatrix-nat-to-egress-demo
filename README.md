@@ -14,7 +14,7 @@ A deployed and configured Aviatrix Controller (v7.1+) and CoPilot
 
 ### Compatibility
 
-| Terraform version | Controller version | Aviatrix Terraform provider version |
+| Terraform version | Controller version | Aviatrix terraform provider version |
 | :---------------- | :----------------- | :---------------------------------- |
 | >= 1.2.0          | >= 7.1             | ~>3.1.0                             |
 
@@ -31,7 +31,7 @@ A deployed and configured Aviatrix Controller (v7.1+) and CoPilot
 
    - Instructs the Aviatrix controller to set the `0.0.0.0/0` route on the private subnet from the `AWS NAT` to the `Aviatrix Gateway`.
    - Using CoPilot you now have visibility into the Internet-bound traffic flows traversing the Aviatrix egress gateway. Navigate to Security-->Distributed Firewalling-->Policy Monitor to view the logs.
-   - The same as with AWS NAT gateway all access to the Internet is being allowed.
+   - The same as with AWS NAT gateway, all access to the Internet is being allowed.
 
 3. After removing the `0.0.0.0/0` route definition from terraform state (`terraform state rm 'module.vpc.aws_route.private_nat_gateway[0]'`) and setting the local variable `aws_nat` from `true` to `false`, the third terraform apply:
 
