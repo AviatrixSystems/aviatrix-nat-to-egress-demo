@@ -15,7 +15,7 @@ A deployed and configured Aviatrix Controller (v7.1+) and CoPilot
 ### Compatibility
 
 | Terraform version | Controller version | Terraform provider version |
-| :---------------- | :----------------- | :------------------------- ||
+| :---------------- | :----------------- | :------------------------- |
 | >= 1.2.0          | >= 7.1             | ~>3.1.0                    |
 
 ## Steps
