@@ -80,7 +80,7 @@ resource "aviatrix_spoke_gateway" "egress" {
   account_name   = "aws-account"
   gw_name        = "avx-egress"
   vpc_reg        = local.region
-  gw_size        = "t3.micro"
+  gw_size        = "t3.medium"
   vpc_id         = module.vpc.vpc_id
   subnet         = module.vpc.public_subnets_cidr_blocks[0]
   single_ip_snat = local.avx_egress ? true : false
