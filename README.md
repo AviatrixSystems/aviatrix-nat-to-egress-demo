@@ -1,8 +1,8 @@
-# AWS NAT to Aviatrix Secure Egress Demo
+# AWS NAT to Aviatrix Distributed Cloud Firewall for Egress Demo
 
 ## Description
 
-This terraform repository serves as the infrastructure as code (IaC) for a demonstration on how to migrate from an `AWS NAT Gateway` to an `Aviatrix Secure Egress Gateway` without incurring network downtime.
+This terraform repository serves as the infrastructure as code (IaC) for a demonstration on how to migrate from an `AWS NAT Gateway` to an `Aviatrix Distributed Cloud Firewall for Egress Gateway` without incurring network downtime.
 
 ## Diagram
 
@@ -51,4 +51,4 @@ A video of this demo can be seen on [youtube](https://www.youtube.com/watch?v=ou
 
 ## Conclusion
 
-In just the above few steps a VPC's Internet traffic can be discovered and secured using an Aviatrix Secure Egress Gateway without any network downtime.
+In just the above few steps a VPC's Internet traffic can be discovered and secured using an Aviatrix Distributed Cloud Firewall for Egress Gateway without any network downtime.

@@ -45,17 +45,43 @@ resource "aviatrix_smart_group" "private_subnet" {
 resource "aviatrix_distributed_firewalling_policy_list" "egress_watch" {
   count = local.avx_dfw_enforce ? 0 : 1
   policies {
-    name     = "allow-internet-icmp"
-    action   = "PERMIT"
-    priority = 2
-    protocol = "ICMP"
+    name     = "allow-internet-http"
+    action   = "INTRUSION_DETECTION_PERMIT"
+    priority = 0
+    protocol = "TCP"
     logging  = true
-    watch    = true
+    watch    = false
+    port_ranges {
+      lo = 80
+    }
     src_smart_groups = [
       aviatrix_smart_group.private_subnet.uuid
     ]
     dst_smart_groups = [
       "def000ad-0000-0000-0000-000000000001" # Public Internet
+    ]
+    web_groups = [
+      aviatrix_web_group.allow_internet_http.uuid,
+    ]
+  }
+  policies {
+    name     = "allow-internet-https"
+    action   = "PERMIT"
+    priority = 1
+    protocol = "TCP"
+    logging  = true
+    watch    = false
+    port_ranges {
+      lo = 443
+    }
+    src_smart_groups = [
+      aviatrix_smart_group.private_subnet.uuid
+    ]
+    dst_smart_groups = [
+      "def000ad-0000-0000-0000-000000000001" # Public Internet
+    ]
+    web_groups = [
+      aviatrix_web_group.allow_internet_https.uuid,
     ]
   }
   policies {
@@ -65,10 +91,6 @@ resource "aviatrix_distributed_firewalling_policy_list" "egress_watch" {
     protocol = "Any"
     logging  = true
     watch    = true
-    port_ranges {
-      lo = 1
-      hi = 65535
-    }
     src_smart_groups = [
       aviatrix_smart_group.private_subnet.uuid
     ]
@@ -135,20 +157,6 @@ resource "aviatrix_distributed_firewalling_policy_list" "egress_enforce" {
     ]
     web_groups = [
       aviatrix_web_group.allow_internet_https.uuid,
-    ]
-  }
-  policies {
-    name     = "allow-internet-icmp"
-    action   = "PERMIT"
-    priority = 2
-    protocol = "ICMP"
-    logging  = true
-    watch    = false
-    src_smart_groups = [
-      aviatrix_smart_group.private_subnet.uuid
-    ]
-    dst_smart_groups = [
-      "def000ad-0000-0000-0000-000000000001" # Public Internet
     ]
   }
   policies {
