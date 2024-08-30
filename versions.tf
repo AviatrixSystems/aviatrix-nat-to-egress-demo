@@ -6,7 +6,7 @@ terraform {
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.54.0"
+      version = "~> 5.65.0"
     }
     http-full = {
       source  = "salrashid123/http-full"

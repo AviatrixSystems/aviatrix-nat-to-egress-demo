@@ -11,8 +11,8 @@ module "vpc" {
 }
 
 resource "aws_eip" "nat" {
-  count = local.aws_nat ? 1 : 0
-  vpc   = true
+  count  = local.aws_nat ? 1 : 0
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "vpc" {
@@ -92,7 +92,7 @@ module "ec2_instance" {
 # Aviatrix Secure Egress FQDN Gateway
 resource "aviatrix_spoke_gateway" "egress" {
   cloud_type     = 1
-  account_name   = "aws-account"
+  account_name   = var.aws_account
   gw_name        = "avx-egress"
   vpc_reg        = local.region
   gw_size        = "t3.medium"

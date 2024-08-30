@@ -43,7 +43,7 @@ resource "aviatrix_smart_group" "private_subnet" {
 }
 
 resource "aviatrix_distributed_firewalling_policy_list" "egress_watch" {
-  count = local.avx_dfw_enforce ? 0 : 1
+  count = local.avx_security_enforce ? 0 : 1
   policies {
     name     = "allow-internet-http"
     action   = "INTRUSION_DETECTION_PERMIT"
@@ -118,7 +118,7 @@ resource "aviatrix_distributed_firewalling_policy_list" "egress_watch" {
 }
 
 resource "aviatrix_distributed_firewalling_policy_list" "egress_enforce" {
-  count = local.avx_dfw_enforce ? 1 : 0
+  count = local.avx_security_enforce ? 1 : 0
   policies {
     name     = "allow-internet-http"
     action   = "PERMIT"

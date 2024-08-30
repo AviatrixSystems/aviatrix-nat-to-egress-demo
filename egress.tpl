@@ -1,12 +1,12 @@
 #! /bin/bash
 sudo hostnamectl set-hostname ${name}
-sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo DEBIAN_FRONTEND=noninteractive apt-get clean
+sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+
 # Add workload user
 sudo adduser workload
 sudo echo "workload:${password}" | sudo /usr/sbin/chpasswd
 sudo sed -i'' -e 's+\%sudo.*+\%sudo  ALL=(ALL) NOPASSWD: ALL+g' /etc/sudoers
-sudo usermod -aG sudo workload
-sudo service sshd restart
 
 # Traffic gen
 cat <<SCR >>/home/workload/cron.sh
